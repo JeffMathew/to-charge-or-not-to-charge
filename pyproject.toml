@@ -9,6 +9,7 @@ dependencies = [
     "fastexcel",
     "pulp",
     "matplotlib",
+    "highspy",
 ]
 
 [dependency-groups]

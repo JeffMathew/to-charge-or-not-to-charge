@@ -15,6 +15,15 @@ interviewer who will read and discuss the code, so clarity beats cleverness.
   what it does, not why.
 - **Tooling (default, may be revised once the package is scaffolded):**
   `pytest` for tests, `ruff` for lint.
+- **MILP solver: PuLP modelling + HiGHS backend (`highspy`), not PuLP's bundled CBC.**
+  Discovered while building slice-2: PuLP's bundled CBC binary has no macOS
+  arm64 build, so it can't run at all on Apple Silicon — a real reproducibility
+  risk for anyone else on the same architecture, not just this machine. HiGHS
+  (via `highspy`) ships normal cross-platform wheels, no system-level install
+  needed anywhere, and is also generally the faster solver of the two for this
+  problem shape (SciPy itself moved to HiGHS for `linprog`/`milp`). `model.py`
+  only builds a solver-agnostic `pulp.LpProblem`, so this was a one-line change
+  at the `.solve(...)` call site — a genuine upgrade, not a workaround.
 - **End of each slice:** run `/checks` before presenting the diff for review.
 - **Never commit.** Diffs are reviewed by the user at the end of each slice;
   the user runs `git add`/`git commit` themselves.
