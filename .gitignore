@@ -1,0 +1,6 @@
+# env
+.python-version
+.DS_Store
+
+# don't leak problem brief
+data/*.pdf
