@@ -4,17 +4,20 @@ Battery dispatch optimisation across two wholesale electricity markets.
 
 ## Approach
 
-This models battery dispatch as a full mixed-integer linear program (MILP):
-binary charge/discharge exclusivity per timestep, efficiency-loss-adjusted
-state-of-charge dynamics, and rate/capacity constraints, solved with PuLP +
-HiGHS. The primary, reproducible result solves each market **separately**
-(Market 1 half-hourly, Market 2 hourly) rather than jointly — measured, not
-assumed: the cross-market complementarity constraint needed to stop the
-battery exploiting price-spread wash trades between markets makes the joint
-two-market MILP roughly 50x slower to solve at full 3-year scale (~28 minutes
-vs ~30 seconds combined). The joint two-market model is fully implemented and
-tested (`two_market_model.py`/`two_market_results.py`) and runnable on
-demand — just not the default path, given that cost.
+Firstly, I was thrown off by seeing negative prices in the dataset and
+did some reading with Claude to understand why that happens in the real world,
+and the implications when solving across such numbers (model is incentivised
+to buy when prices are negative). I initially considered treating this as a relaxed
+LP with no charge/discharge constraint because in a single market, the optima wouldn't
+be to charge/discharge at the same time into the same market at the same price anyway.
+However, it turned out if I wanted to solve for the two-market scenario, I would need to
+explicitly disallow charge/discharge at the same time, otherwise model would prefer to use
+that simultaneous mechanism when spreads between markets were good enough. Thus, it is effectively a full MILP.
+
+In the end, I have framed both the single-market and dual-market problems and solved for them, with Claude driving the code development and tool proposals, I reviewed (almost) each file and made commits myself. This README has instructions to run both single-market and two-market flavours of the problem, the latter took ~30 mins to run on my machine.
+
+
+
 
 ## Setup
 
@@ -38,10 +41,12 @@ make results
 Solves each market **separately** (see `single_market.py`), validates the
 solution (no simultaneous charge/discharge, charge/discharge rates
 respected, SoC within bounds), and writes
-[`artifacts/results.md`](artifacts/results.md). Takes well under a minute.
-Profit figures are deterministic, so re-running this — on this machine or any
-other — should reproduce the exact same numbers; solve time will vary by
-hardware.
+[`artifacts/new_results.md`](artifacts/new_results.md) — freshly generated
+every run, so it never overwrites
+[`artifacts/results.md`](artifacts/results.md) (the author's own captured
+reference run). Takes well under a minute. Profit figures are deterministic,
+so your own `new_results.md` should match `results.md` exactly; solve time
+will vary by hardware.
 
 ### Two-market / joint model
 
