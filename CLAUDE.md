@@ -21,8 +21,8 @@ interviewer who will read and discuss the code, so clarity beats cleverness.
   risk for anyone else on the same architecture, not just this machine. HiGHS
   (via `highspy`) ships normal cross-platform wheels, no system-level install
   needed anywhere, and is also generally the faster solver of the two for this
-  problem shape (SciPy itself moved to HiGHS for `linprog`/`milp`). `model.py`
-  only builds a solver-agnostic `pulp.LpProblem`, so this was a one-line change
+  problem shape (SciPy itself moved to HiGHS for `linprog`/`milp`).
+  `two_market_model.py` only builds a solver-agnostic `pulp.LpProblem`, so this was a one-line change
   at the `.solve(...)` call site — a genuine upgrade, not a workaround.
 - **End of each slice:** run `/checks` before presenting the diff for review.
 - **Never commit.** Diffs are reviewed by the user at the end of each slice;
@@ -36,3 +36,15 @@ interviewer who will read and discuss the code, so clarity beats cleverness.
 - [ ] slice-3: solve + results extraction, with sanity checks (no simultaneous charge/discharge, SoC bounds)
 - [ ] slice-4: reproducible run script/CLI + 1-paragraph approach summary
 - [ ] slice-5: tests — synthetic scenario reproducing the PDF's worked examples, wired into /checks
+
+**Single-market-per-market is the primary reported result, not the two-market joint model.**
+Measured at full 3-year scale: single-market solves take ~28s (Market 1) and
+~5s (Market 2), while the two-market joint model — correct, tested, and kept
+in the codebase (`two_market_model.py`/`two_market_results.py`) — takes ~28 minutes, because the
+cross-market complementarity coupling is the dominant cost, not raw problem
+size (confirmed by isolating it experimentally). The brief explicitly allows
+"focussing on one market" as a simplification; given the measured gap, slices
+3/4's "reproducible run" goal is satisfied by `make results` /
+`single_market.py` (see `README.md`), with the two-market result logged
+alongside it in `artifacts/results.md` as an informational, non-default data
+point rather than deleted or hidden.
