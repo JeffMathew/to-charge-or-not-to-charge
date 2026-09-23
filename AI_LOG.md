@@ -20,3 +20,8 @@ Claude made some crude assumptions that had to be challenged.
 
 #### B2. Full MILP
 1. As much as MILP brings in uncertainties around solve times (vs simple LP), makes sense for the two-market problem at hand because the charge/discharge constraint is one that needs to be respected at all times. This is the approach I am choosing and the package will be built around that.
+
+
+### C. Data Loading
+Simple dataclasses to load in the Excel files, freezing the objects so that numbers don't get fudged later.
+1. Pushed Claude whether upsampling the hourly data to have two half hour intervals per hour (with same price) would help the solver at all, was promptly told off and no benefit to doing it.
