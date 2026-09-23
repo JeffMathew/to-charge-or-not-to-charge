@@ -46,8 +46,11 @@ size (confirmed by isolating it experimentally). The brief explicitly allows
 "focussing on one market" as a simplification; given the measured gap, slices
 3/4's "reproducible run" goal is satisfied by `make results` /
 `single_market.py` (see `README.md`), with the two-market result logged
-alongside it in `artifacts/results.md` as an informational, non-default data
-point rather than deleted or hidden. The two-market model also has its own
+alongside it as an informational, non-default data point rather than deleted
+or hidden. `make results` writes to `artifacts/new_results.md`, freshly
+generated every run — `artifacts/results.md` is the author's own captured
+reference run and is never overwritten by the script, so the two can be
+diffed to confirm reproducibility. The two-market model also has its own
 runnable entry point (`make two-market-results`), clearly separate from the
 default path — console output only, no file written, ~25-30 min. Slice-4's
 "1-paragraph approach summary" is satisfied by `README.md`'s new "Approach"

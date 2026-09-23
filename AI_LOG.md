@@ -25,3 +25,16 @@ Claude made some crude assumptions that had to be challenged.
 ### C. Data Loading
 Simple dataclasses to load in the Excel files, freezing the objects so that numbers don't get fudged later.
 1. Pushed Claude whether upsampling the hourly data to have two half hour intervals per hour (with same price) would help the solver at all, was promptly told off and no benefit to doing it.
+
+
+### D. Solver and CPU arch issues
+1. PuLP + CBC was recommended by Claude, turns out CBC doesn't have a binary for ARM64. Decided to pivot and use a `highspy` solver instead, because that ships wheels cross-platform and would be easier to reproduce results with.
+
+
+### E. Actual Solve
+1. Two-market solve takes almost 30 mins, solving for either market by itself takes less than a minute each. Started moving in the direction of having `make` targets that produce results for the single-market runs.
+2. There is still an option to trigger the two-market runs with a warning that it will take ~30 mins to complete for someone attempting it.
+
+
+### F. Tests and regressions
+1. Added a `validate-checks` Claude skill to ensure that new code additions don't result in different profit numbers for the same dataset (assuming of course that the numbers produced now are correct...)
