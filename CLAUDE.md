@@ -18,3 +18,12 @@ interviewer who will read and discuss the code, so clarity beats cleverness.
 - **End of each slice:** run `/checks` before presenting the diff for review.
 - **Never commit.** Diffs are reviewed by the user at the end of each slice;
   the user runs `git add`/`git commit` themselves.
+
+# Roadmap
+
+- [x] slice-0: repo skeleton (uv/pyproject/Makefile, src layout, twine-buildable)
+- [ ] slice-1: data loading (Attachment 1 + 2 parsing) + price series plots to artifacts/
+- [ ] slice-2: core MILP model (PuLP) — variables, constraints, objective
+- [ ] slice-3: solve + results extraction, with sanity checks (no simultaneous charge/discharge, SoC bounds)
+- [ ] slice-4: reproducible run script/CLI + 1-paragraph approach summary
+- [ ] slice-5: tests — synthetic scenario reproducing the PDF's worked examples, wired into /checks
