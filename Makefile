@@ -1,4 +1,4 @@
-.PHONY: install lint test test-slow build plots results clean
+.PHONY: install lint test test-slow build plots results two-market-results clean
 
 install:
 	uv sync
@@ -20,6 +20,9 @@ plots:
 
 results:
 	uv run python -m battery_dispatch.single_market
+
+two-market-results:
+	uv run python -m battery_dispatch.two_market_results
 
 clean:
 	rm -rf dist .pytest_cache .ruff_cache

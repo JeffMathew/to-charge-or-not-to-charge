@@ -32,10 +32,10 @@ interviewer who will read and discuss the code, so clarity beats cleverness.
 
 - [x] slice-0: repo skeleton (uv/pyproject/Makefile, src layout, twine-buildable)
 - [x] slice-1: data loading (Attachment 1 + 2 parsing) + price series plots to artifacts/
-- [ ] slice-2: core MILP model (PuLP) — variables, constraints, objective
-- [ ] slice-3: solve + results extraction, with sanity checks (no simultaneous charge/discharge, SoC bounds)
+- [x] slice-2: core MILP model (PuLP) — variables, constraints, objective
+- [x] slice-3: solve + results extraction, with sanity checks (no simultaneous charge/discharge, SoC bounds)
 - [ ] slice-4: reproducible run script/CLI + 1-paragraph approach summary
-- [ ] slice-5: tests — synthetic scenario reproducing the PDF's worked examples, wired into /checks
+- [~] slice-5: dropped — PDF's worked examples don't need to be coded up (explicit call)
 
 **Single-market-per-market is the primary reported result, not the two-market joint model.**
 Measured at full 3-year scale: single-market solves take ~28s (Market 1) and
@@ -47,4 +47,8 @@ size (confirmed by isolating it experimentally). The brief explicitly allows
 3/4's "reproducible run" goal is satisfied by `make results` /
 `single_market.py` (see `README.md`), with the two-market result logged
 alongside it in `artifacts/results.md` as an informational, non-default data
-point rather than deleted or hidden.
+point rather than deleted or hidden. The two-market model also has its own
+runnable entry point (`make two-market-results`), clearly separate from the
+default path — console output only, no file written, ~25-30 min. Slice-4's
+"1-paragraph approach summary" is satisfied by `README.md`'s new "Approach"
+section.
