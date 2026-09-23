@@ -1,5 +1,4 @@
 # env
-.python-version
 .DS_Store
 
 # don't leak problem brief
@@ -7,8 +6,14 @@ data/*.pdf
 
 # build
 .venv/
+# .venv2/ etc: stray duplicate venvs seen from iCloud sync interference
+.venv*/
 __pycache__/
 *.egg-info/
 dist/
 .pytest_cache/
 .ruff_cache/
+
+# regenerated every `make results` run — artifacts/results.md is the
+# preserved reference and is deliberately not ignored
+artifacts/new_results.md
