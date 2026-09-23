@@ -22,7 +22,7 @@ interviewer who will read and discuss the code, so clarity beats cleverness.
 # Roadmap
 
 - [x] slice-0: repo skeleton (uv/pyproject/Makefile, src layout, twine-buildable)
-- [ ] slice-1: data loading (Attachment 1 + 2 parsing) + price series plots to artifacts/
+- [x] slice-1: data loading (Attachment 1 + 2 parsing) + price series plots to artifacts/
 - [ ] slice-2: core MILP model (PuLP) — variables, constraints, objective
 - [ ] slice-3: solve + results extraction, with sanity checks (no simultaneous charge/discharge, SoC bounds)
 - [ ] slice-4: reproducible run script/CLI + 1-paragraph approach summary
