@@ -8,12 +8,20 @@ dependencies = [
     "polars",
     "fastexcel",
     "pulp",
+    "matplotlib",
 ]
 
 [dependency-groups]
 dev = [
     "pytest",
     "ruff",
+]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    # polars' own from_arrow bridge inside pl.read_excel (fastexcel engine) — not
+    # anything our code controls, harmless ahead of polars 2.0.
+    "ignore:from_arrow.*will return a Series instead of a DataFrame:FutureWarning",
 ]
 
 [build-system]

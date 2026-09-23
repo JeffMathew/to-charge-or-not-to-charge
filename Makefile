@@ -1,4 +1,4 @@
-.PHONY: install lint test build clean
+.PHONY: install lint test build plots clean
 
 install:
 	uv sync
@@ -11,6 +11,9 @@ test:
 
 build:
 	uv build
+
+plots:
+	uv run python -m battery_dispatch.plotting
 
 clean:
 	rm -rf dist .pytest_cache .ruff_cache
