@@ -7,7 +7,7 @@ data/*.pdf
 # build
 .venv/
 # .venv2/ etc: stray duplicate venvs seen from iCloud sync interference
-.venv*/
+.venv*
 __pycache__/
 *.egg-info/
 dist/
