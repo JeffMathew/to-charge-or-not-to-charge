@@ -18,6 +18,10 @@ from battery_dispatch.data import BatteryParams, load_battery_params, load_marke
 _TOLERANCE = 1e-6
 
 ARTIFACTS_DIR = Path(__file__).resolve().parents[2] / "artifacts"
+# Written fresh on every run. Deliberately not "results.md" — that file holds
+# the author's own captured experiment results and is never touched by this
+# script, so anyone re-running it can diff their own output against it.
+RESULTS_FILENAME = "new_results.md"
 
 # Observed once (not reproduced by this script — see README/results.md for why).
 TWO_MARKET_PROFIT_GBP = 210_867.12
@@ -186,12 +190,14 @@ def _write_results_md(
 ) -> None:
     naive_sum = m1_result.total_profit_gbp + m2_result.total_profit_gbp
     slowdown = TWO_MARKET_SOLVE_SECONDS / (m1_seconds + m2_seconds)
-    content = f"""# Results
+    content = f"""# Results (freshly generated)
 
 Profit figures are deterministic (no randomness in the LP/MILP solve), so they
 should match exactly regardless of who runs `make results` or on what
 machine. Solve times will vary by hardware — that's expected, not a
-reproducibility concern.
+reproducibility concern. Compare this file against `results.md` (the
+author's own captured run) to confirm your own run reproduces the same
+numbers — `results.md` itself is never overwritten by this script.
 
 | Market | Resolution | Periods | Total profit | Solve time | Sanity checks |
 |---|---|---|---|---|---|
@@ -218,7 +224,7 @@ physical battery competing for capacity between two markets, not two
 independent batteries as the separate single-market solves implicitly assume.
 """
     ARTIFACTS_DIR.mkdir(exist_ok=True)
-    (ARTIFACTS_DIR / "results.md").write_text(content)
+    (ARTIFACTS_DIR / RESULTS_FILENAME).write_text(content)
 
 
 if __name__ == "__main__":
@@ -236,4 +242,4 @@ if __name__ == "__main__":
     print(f"Market 2: £{m2_result.total_profit_gbp:,.2f} ({m2_seconds:.1f}s)")
 
     _write_results_md(m1_result, m1_seconds, m2_result, m2_seconds)
-    print(f"Wrote {ARTIFACTS_DIR / 'results.md'}")
+    print(f"Wrote {ARTIFACTS_DIR / RESULTS_FILENAME}")
