@@ -19,6 +19,10 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
+addopts = "-m 'not slow'"
+markers = [
+    "slow: solves against the real 3-year dataset (~40s); excluded from the default `make test` run, run via `make test-slow`",
+]
 filterwarnings = [
     # polars' own from_arrow bridge inside pl.read_excel (fastexcel engine) — not
     # anything our code controls, harmless ahead of polars 2.0.

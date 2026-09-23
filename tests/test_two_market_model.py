@@ -5,7 +5,7 @@ import pulp
 import pytest
 
 from battery_dispatch.data import BatteryParams, MarketPrices
-from battery_dispatch.model import build_dispatch_model
+from battery_dispatch.two_market_model import build_dispatch_model
 
 _BATTERY = BatteryParams(
     max_charge_rate_mw=1,

@@ -1,4 +1,4 @@
-.PHONY: install lint test build plots clean
+.PHONY: install lint test test-slow build plots results clean
 
 install:
 	uv sync
@@ -9,11 +9,17 @@ lint:
 test:
 	uv run pytest
 
+test-slow:
+	uv run pytest -m slow -v
+
 build:
 	uv build
 
 plots:
 	uv run python -m battery_dispatch.plotting
+
+results:
+	uv run python -m battery_dispatch.single_market
 
 clean:
 	rm -rf dist .pytest_cache .ruff_cache
