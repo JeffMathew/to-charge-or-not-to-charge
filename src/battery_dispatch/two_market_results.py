@@ -1,13 +1,14 @@
 """Solve a built dispatch model and turn it into checked, usable results."""
 
+import time
 from dataclasses import dataclass
 from datetime import timedelta
 
 import polars as pl
 import pulp
 
-from battery_dispatch.data import MarketPrices
-from battery_dispatch.two_market_model import DispatchModel
+from battery_dispatch.data import MarketPrices, load_battery_params, load_market_prices
+from battery_dispatch.two_market_model import DispatchModel, build_dispatch_model
 
 _TOLERANCE = 1e-6
 
@@ -107,3 +108,19 @@ def solve_and_extract(dispatch: DispatchModel, prices: MarketPrices) -> Dispatch
 
     validate_solution(dispatch)
     return extract_results(dispatch, prices)
+
+
+if __name__ == "__main__":
+    print("Solving the joint two-market model at full scale — this takes ~25-30 minutes.")
+    print("Results are printed to console only; no file is written.\n")
+
+    battery = load_battery_params()
+    prices = load_market_prices()
+
+    dispatch = build_dispatch_model(battery, prices)
+    start = time.time()
+    result = solve_and_extract(dispatch, prices)
+    solve_seconds = time.time() - start
+
+    print(f"Total profit: £{result.total_profit_gbp:,.2f}")
+    print(f"Solve time: {solve_seconds / 60:.1f} min")
